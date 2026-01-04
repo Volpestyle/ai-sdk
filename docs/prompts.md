@@ -3,7 +3,7 @@ Result: [[README|AI SDK component specs]]
 im developing a ai-sdk, which is a suite of packages and tools for AI powered applications. Think AI model pipelines and constructs that can potentially be mixed and matched.
 
 for example, we have this product spec for an app:
-[[product_spec]]
+[[ai-sdk/packages/av-sync/product_spec]]
 
 and take this other high level spec idea:
 [[Personastu]]
