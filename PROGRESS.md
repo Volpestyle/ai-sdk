@@ -48,8 +48,8 @@ This file tracks implementation progress for the component specs under `web/ai-s
 - [x] Tests: ROI stability invariants (scale/center)
 
 ### M3 — Core planning + runtime
-- [ ] `packages/planning-control`: prompt templates + TurnPlan helpers
-- [ ] `packages/orchestration-runtime`: DAG runner skeleton (streaming + batch)
+- [x] `packages/planning-control`: prompt templates + TurnPlan helpers + validation/clamp utils + tests
+- [x] `packages/orchestration-runtime`: DAG runner skeleton (streaming + batch) + retries/cancel + tests
 
 ### M4 — Media generation + delivery (stubs + adapters)
 - [ ] `packages/audio-speech`: adapter interfaces + streaming chunk contracts
@@ -70,3 +70,5 @@ This file tracks implementation progress for the component specs under `web/ai-s
 - `packages/sync-scorer`: schema ✅, proto ✅, code ✅ (heuristic fallback)
 - `packages/viseme-aligner`: schema ✅, proto ✅, code ✅ (mapping + heuristic)
 - `packages/face-track`: schema ✅, proto ✅, code ⚠️ (ROI helpers only)
+- `packages/planning-control`: schema ✅, code ✅
+- `packages/orchestration-runtime`: code ✅
