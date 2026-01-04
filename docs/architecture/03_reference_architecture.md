@@ -1,17 +1,19 @@
-# Reference Architecture (concrete “ship it” stack)
+# Reference Architecture (AWS-first “ship it” stack)
 
-This is a reasonable first production stack that keeps the system modular.
+This is a reasonable first production stack that keeps the system modular and AWS-native.
 
-## Control plane
-- Postgres (metadata, jobs, personas, scenes)
-- S3-compatible object store (assets, masks, embeddings)
-- Redis (session state + queues)
-- OpenTelemetry (traces) + Prometheus/Grafana (metrics)
+## Control plane (AWS)
+- DynamoDB (metadata, jobs, personas, scenes)
+- S3 (assets, masks, embeddings)
+- ElastiCache Redis (session state + low-latency queues)
+- SQS + Step Functions (durable queues and workflow orchestration)
+- CloudWatch + X-Ray + OpenTelemetry (logs, metrics, traces)
+- Secrets Manager + SSM Parameter Store (secrets/config)
 
 ## Realtime plane (FT-Gen)
-- Session Gateway (WS signaling + auth)
-- SFU (LiveKit self-host or managed)
-- Sticky Render Workers (GPU) running:
+- Session Gateway (API Gateway WebSocket or ECS service behind ALB) + Cognito auth
+- SFU (LiveKit on ECS/EKS or managed LiveKit Cloud in AWS)
+- Sticky Render Workers (GPU) on ECS/EKS/EC2 running:
   - Orchestrator
   - TTS adapter (or remote provider)
   - Audio features
@@ -20,8 +22,8 @@ This is a reasonable first production stack that keeps the system modular.
   - A/V sync monitor at the WebRTC boundary (av-sync)
 
 ## Batch plane (Personastu)
-- Workflow engine or job queue (Temporal or Redis+worker)
-- GPU workers for:
+- Step Functions + SQS (workflow engine + queue)
+- GPU workers on ECS/EKS/AWS Batch for:
   - image generation / editing
   - matting/segmentation
   - upscaling/restoration
