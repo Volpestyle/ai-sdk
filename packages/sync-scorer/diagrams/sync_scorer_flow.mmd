@@ -1,0 +1,8 @@
+flowchart LR
+  A[Audio PCM] --> M[Mel Spectrogram]
+  V[Frames] --> ROI[Mouth ROI crop]
+  M --> EncA[Audio Encoder]
+  ROI --> EncV[Video Encoder]
+  EncA --> Sim[Similarity over offsets]
+  EncV --> Sim
+  Sim --> Out[LipSyncScore - score + offset]

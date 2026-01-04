@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VisemeTimeline",
+  "type": "object",
+  "properties": {
+    "utterance_id": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "tts_alignment",
+        "forced_aligner",
+        "heuristic",
+        "asr_alignment"
+      ]
+    },
+    "visemes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "start_ms": {
+            "type": "integer"
+          },
+          "end_ms": {
+            "type": "integer"
+          },
+          "viseme_id": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "start_ms",
+          "end_ms",
+          "viseme_id",
+          "confidence"
+        ]
+      }
+    }
+  },
+  "required": [
+    "utterance_id",
+    "language",
+    "source",
+    "visemes"
+  ]
+}

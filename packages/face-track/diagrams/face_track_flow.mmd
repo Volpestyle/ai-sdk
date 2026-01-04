@@ -1,0 +1,7 @@
+flowchart LR
+  F[Frame] --> D[Detector - every N frames]
+  D --> T[Tracker - bbox smoothing]
+  T --> L[Landmarks]
+  L --> P[Pose - PnP]
+  L --> R[ROI Stabilizer]
+  R --> Out[FaceTrackResult]

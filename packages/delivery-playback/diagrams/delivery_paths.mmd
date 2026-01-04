@@ -1,0 +1,13 @@
+%% Delivery paths: WebRTC vs CDN
+flowchart LR
+  subgraph Realtime["Realtime (FT-Gen)"]
+    A[Render worker] --> B[Encoder]
+    B --> C[SFU/WebRTC]
+    C --> D[Client playback]
+  end
+
+  subgraph Offline["Offline (Personastu)"]
+    E[Final assets] --> F[Object store]
+    F --> G[CDN + signed URLs]
+    G --> H[Client download/view]
+  end

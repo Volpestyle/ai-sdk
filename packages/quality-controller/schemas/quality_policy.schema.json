@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QualityPolicy",
+  "type": "object",
+  "properties": {
+    "lip_warn": {
+      "type": "number",
+      "default": 0.55
+    },
+    "lip_fail": {
+      "type": "number",
+      "default": 0.45
+    },
+    "lip_fail_consecutive": {
+      "type": "integer",
+      "default": 3
+    },
+    "drift_warn_identity": {
+      "type": "number",
+      "default": 0.8
+    },
+    "drift_fail_identity": {
+      "type": "number",
+      "default": 0.72
+    },
+    "av_offset_warn_ms": {
+      "type": "integer",
+      "default": 80
+    },
+    "av_offset_fail_ms": {
+      "type": "integer",
+      "default": 140
+    },
+    "cooldown_ms_heavy_action": {
+      "type": "integer",
+      "default": 1500
+    }
+  },
+  "required": [
+    "lip_warn",
+    "lip_fail"
+  ]
+}

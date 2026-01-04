@@ -1,0 +1,8 @@
+%% Telemetry and cost flow
+flowchart TB
+  A[Step execution] --> B["Metrics<br/>(latency, errors, quality)"]
+  A --> C["Traces<br/>(OpenTelemetry)"]
+  A --> D["Cost ledger<br/>(tokens/seconds/GPU-sec)"]
+  B --> E[Dashboards]
+  C --> E
+  D --> E

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LipSyncScore",
+  "type": "object",
+  "properties": {
+    "window_id": {
+      "type": "string"
+    },
+    "score": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "offset_ms": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "label": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "warn",
+        "fail",
+        "silence",
+        "occluded",
+        "unknown"
+      ]
+    },
+    "debug": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "window_id",
+    "confidence",
+    "label"
+  ]
+}

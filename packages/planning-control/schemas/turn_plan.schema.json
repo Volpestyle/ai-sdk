@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TurnPlan",
+  "type": "object",
+  "required": [
+    "speech_budget_sec_target",
+    "speech_budget_sec_hardcap",
+    "speech_segments",
+    "actor_timeline"
+  ],
+  "properties": {
+    "speech_budget_sec_target": {
+      "type": "number"
+    },
+    "speech_budget_sec_hardcap": {
+      "type": "number",
+      "const": 30
+    },
+    "speech_segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "priority",
+          "text"
+        ],
+        "properties": {
+          "priority": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "text": {
+            "type": "string"
+          },
+          "optional_tts_tags": {
+            "type": "object"
+          },
+          "est_sec": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "actor_timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "t0": {
+            "type": "number"
+          },
+          "t1": {
+            "type": "number"
+          },
+          "emotion": {
+            "type": "string"
+          },
+          "intensity": {
+            "type": "number"
+          },
+          "gaze_mode": {
+            "type": "string"
+          },
+          "blink_rate": {
+            "type": "number"
+          },
+          "head_motion": {
+            "type": "object"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "listening",
+              "speaking"
+            ]
+          }
+        }
+      }
+    },
+    "camera_mode_suggestion": {
+      "type": "string"
+    },
+    "safety_self_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

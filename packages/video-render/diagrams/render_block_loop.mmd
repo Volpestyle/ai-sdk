@@ -1,0 +1,11 @@
+%% Render block loop (conceptual)
+flowchart TB
+  A["Anchor image<br/>+ constraints"] --> B[Render session start]
+  C[Audio features stream] --> D[Accumulate window]
+  E[Actor controls stream] --> D
+  D --> F["Render block<br/>(8-16 frames)"]
+  F --> G[Score drift]
+  G -->|pass| H["Emit frames<br/>encoder/WebRTC"]
+  G -->|fail| I["Re-render block<br/>stronger anchor"]
+  I --> H
+  H --> D

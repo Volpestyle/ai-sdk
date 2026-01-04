@@ -1,0 +1,13 @@
+%% Orchestration: streaming vs batch
+flowchart TB
+  subgraph Streaming["Streaming (FT-Gen)"]
+    S1[Gateway sticky routing] --> S2[In-process orchestrator]
+    S2 --> S3["Stream steps<br/>LLM->TTS->Features->Render blocks"]
+    S2 --> S4[Cancelation / barge-in]
+  end
+
+  subgraph Batch["Batch (Personastu)"]
+    B1[Queue/workflow] --> B2[Step runner]
+    B2 --> B3[Progress + retries]
+    B3 --> B4[Final assets]
+  end

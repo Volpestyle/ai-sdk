@@ -1,0 +1,7 @@
+%% Postprocess stack
+flowchart TB
+  A[Raw outputs] --> B["Composite<br/>(alpha + background)"]
+  B --> C[Stabilize/denoise]
+  C --> D[Upscale/restore]
+  D --> E[Encode/export profile]
+  E --> F[Final MediaAsset]

@@ -1,0 +1,49 @@
+flowchart LR
+  subgraph Client
+    UI[Web/iOS/Android UI]
+    Playback[WebRTC Playback]
+  end
+
+  subgraph Orchestrator
+    Budgeter[Turn Budgeter]
+    Planner[LLM -> TurnPlan]
+    QC[Quality Controller]
+  end
+
+  subgraph Audio
+    TTS[Streaming TTS]
+    Feats[Audio Feature Service]
+    Aligner[Viseme Aligner (optional)]
+  end
+
+  subgraph Video
+    Render[Neural Video Render (local or provider)]
+    FaceTrack[Face Track + Mouth ROI]
+    SyncScore[Lip Sync Scorer]
+    MouthFix[Mouth Corrector (optional)]
+    Drift[Drift Monitor]
+  end
+
+  subgraph Transport
+    Enc[Encoder]
+    AVSync[A/V Sync + Media Clock]
+    Bridge[Provider WebRTC Bridge (optional)]
+  end
+
+  UI --> Budgeter --> Planner
+  Planner --> TTS
+  Planner --> Render
+  TTS --> Feats --> Render
+  Planner --> Aligner --> Render
+
+  Render --> FaceTrack --> SyncScore --> QC
+  Render --> Drift --> QC
+  Render --> MouthFix --> Enc
+
+  QC --> Render
+  QC --> MouthFix
+  QC --> Budgeter
+
+  Enc --> AVSync --> Playback
+  Render -. provider stream .-> Bridge --> AVSync
+

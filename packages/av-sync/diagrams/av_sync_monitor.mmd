@@ -1,0 +1,16 @@
+sequenceDiagram
+  participant Q as QualityController
+  participant A as AvSyncMonitor
+  participant W as WebRTC
+  participant C as Client
+
+  loop Every 1s
+    W->>A: collect sender stats
+    C->>A: collect receiver stats (optional)
+    A-->>Q: PlaybackHealth(av_offset_ms, late_frames)
+    alt av_offset_ms > resync_threshold
+      Q->>W: request resync / restart
+    else sustained lateness
+      Q->>W: request degrade fps
+    end
+  end

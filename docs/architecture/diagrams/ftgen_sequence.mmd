@@ -1,0 +1,34 @@
+%% FT-Gen per-turn sequence
+sequenceDiagram
+  participant U as User
+  participant C as Client
+  participant G as Session Gateway
+  participant M as Moderation
+  participant O as Orchestrator
+  participant L as LLM Planner
+  participant T as Streaming TTS
+  participant F as Audio Features
+  participant V as Video Render
+  participant W as WebRTC/SFU
+
+  U->>C: send text
+  C->>G: WS/WebRTC signaling + message
+  G->>M: pre-check user text (illegal-only)
+  M-->>G: allow/block
+  G->>O: route to sticky worker
+  O->>L: request TurnPlan (JSON)
+  L-->>O: TurnPlan (segments + actor timeline)
+  O->>M: post-check assistant text
+  M-->>O: allow/block
+  par stream speech
+    O->>T: stream segment text
+    T-->>O: PCM chunks
+    O->>F: PCM -> mel/pitch/energy (+visemes optional)
+    F-->>V: audio features windows
+  and stream video blocks
+    O->>V: anchor + controls(t) + constraints
+    V-->>O: frames + drift stats
+    O->>W: encode + send frames/audio
+    W-->>C: WebRTC playback
+  end
+  O->>O: update SessionState (anchor refresh + drift)

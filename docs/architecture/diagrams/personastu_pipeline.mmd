@@ -1,0 +1,8 @@
+%% Personastu offline pipeline
+flowchart LR
+  A[Capture/Upload] --> B[Moderation + QC]
+  B --> C[Segmentation/Matting]
+  C --> D[ScenePlan / ShotPlan]
+  D --> E[Generation / Compositing]
+  E --> F["Post-process<br/>(upscale/restore/grade)"]
+  F --> G[Export + CDN delivery]

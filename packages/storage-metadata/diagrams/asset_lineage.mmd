@@ -1,0 +1,7 @@
+%% Asset lineage and replay
+flowchart TB
+  A[GenJob] --> B[StepRun 1]
+  A --> C[StepRun 2]
+  C --> D[MediaAsset]
+  D --> E[Replay API]
+  E --> F["New GenJob<br/>(recompute)"]

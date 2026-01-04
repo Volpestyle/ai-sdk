@@ -1,0 +1,40 @@
+# Reference Architecture (concrete “ship it” stack)
+
+This is a reasonable first production stack that keeps the system modular.
+
+## Control plane
+- Postgres (metadata, jobs, personas, scenes)
+- S3-compatible object store (assets, masks, embeddings)
+- Redis (session state + queues)
+- OpenTelemetry (traces) + Prometheus/Grafana (metrics)
+
+## Realtime plane (FT-Gen)
+- Session Gateway (WS signaling + auth)
+- SFU (LiveKit self-host or managed)
+- Sticky Render Workers (GPU) running:
+  - Orchestrator
+  - TTS adapter (or remote provider)
+  - Audio features
+  - Video render backend adapter (local or provider bridge)
+  - Drift monitoring + lip-sync quality loop (identity-drift, face-track, sync-scorer, quality-controller)
+  - A/V sync monitor at the WebRTC boundary (av-sync)
+
+## Batch plane (Personastu)
+- Workflow engine or job queue (Temporal or Redis+worker)
+- GPU workers for:
+  - image generation / editing
+  - matting/segmentation
+  - upscaling/restoration
+
+## Model/provider defaults
+- LLM planning: OpenAI GPT-5.2 / GPT-5 mini
+- Moderation: OpenAI omni-moderation-latest
+- TTS: OpenAI gpt-4o-mini-tts (or ElevenLabs v3 if you need tags)
+- I2V backend: LivePortrait locally for v0; provider streaming avatar as v1
+- Image gen: OpenAI gpt-image-1.x or SDXL locally
+- Video gen (non-stream fallback): OpenAI Sora 2
+
+## Key scaling decisions
+- Split “render” GPU pool from “batch” GPU pool to avoid tail latency.
+- Sticky sessions for any backend that benefits from caches.
+- Always record seeds/params for replay + debugging.

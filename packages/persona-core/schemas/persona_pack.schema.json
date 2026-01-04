@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PersonaPack",
+  "type": "object",
+  "required": [
+    "persona_id",
+    "version",
+    "anchor_sets",
+    "identity",
+    "style",
+    "behavior_policy"
+  ],
+  "properties": {
+    "persona_id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "anchor_sets": {
+      "type": "object",
+      "description": "Anchors per camera mode (A/B/C...).",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "image_ref",
+            "metadata"
+          ],
+          "properties": {
+            "image_ref": {
+              "type": "string"
+            },
+            "mask_ref": {
+              "type": "string"
+            },
+            "metadata": {
+              "type": "object",
+              "properties": {
+                "expression_tag": {
+                  "type": "string"
+                },
+                "head_pose": {
+                  "type": "object"
+                },
+                "lighting_tag": {
+                  "type": "string"
+                },
+                "crop_box": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 4,
+                  "maxItems": 4
+                },
+                "best_for": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "face_embedding_refs"
+      ],
+      "properties": {
+        "face_embedding_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "adapter_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "style_embedding_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stage_constraints": {
+          "type": "object"
+        }
+      }
+    },
+    "voice_profile": {
+      "type": "object",
+      "properties": {
+        "provider_voice_id": {
+          "type": "string"
+        },
+        "speaker_embedding_ref": {
+          "type": "string"
+        },
+        "prosody_bounds": {
+          "type": "object"
+        }
+      }
+    },
+    "behavior_policy": {
+      "type": "object",
+      "properties": {
+        "persona_card": {
+          "type": "string"
+        },
+        "emotion_ranges": {
+          "type": "object"
+        },
+        "allowed_gestures": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+flowchart TD
+  In[User Text] --> ModIn[Input Moderation]
+  ModIn --> Plan[TurnPlan (LLM)]
+  Plan --> TTS[Streaming TTS]
+  TTS --> Provider[Provider Avatar WebRTC (HeyGen/D-ID/Simli/Tavus)]
+  Provider --> Bridge[WebRTC Bridge / Relay]
+  Bridge --> AVSync[A/V Sync Monitor]
+  AVSync --> WebRTC[WebRTC to Client]
+
+  %% Optional: quality monitoring on sampled frames
+  Bridge -. sample frames .-> FaceTrack[Face Track + ROI]
+  FaceTrack -.-> SyncScore[Sync Scorer]
+  SyncScore -.-> QC[Quality Controller]
+  QC -.->|restart/failover| Provider

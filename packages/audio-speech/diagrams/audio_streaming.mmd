@@ -1,0 +1,11 @@
+%% Audio streaming for FT-Gen
+sequenceDiagram
+  participant O as Orchestrator
+  participant T as TTS
+  participant F as FeatureSvc
+  participant V as VideoRender
+
+  O->>T: stream segment text (+tags)
+  T-->>O: PCM chunks
+  O->>F: PCM chunks
+  F-->>V: Feature chunks (mel/pitch/energy)

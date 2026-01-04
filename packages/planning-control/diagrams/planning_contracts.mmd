@@ -1,0 +1,8 @@
+%% Planning contracts and validation
+flowchart TB
+  A[User input / job request] --> B[LLM Planner]
+  B --> C["Plan JSON<br/>(TurnPlan / ShotPlan)"]
+  C --> D[Schema validation]
+  D --> E[Clamp to persona + scene constraints]
+  E --> F[Safety/policy clamp]
+  F --> G[Executable plan]

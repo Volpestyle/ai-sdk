@@ -1,0 +1,9 @@
+%% Scene generation + reuse
+flowchart TB
+  A[ScenePack preset] --> B[ScenePlan Resolver]
+  B --> C{BackgroundBank cache hit?}
+  C -- yes --> D[Reuse background ref]
+  C -- no --> E["Generate background<br/>(provider/local)"]
+  E --> F["Store background ref<br/>+ seeds + params"]
+  D --> G[Composite / render]
+  F --> G

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AvSyncPolicy",
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": [
+        "local_encode",
+        "provider_bridge"
+      ]
+    },
+    "audio_sample_rate_hz": {
+      "type": "integer",
+      "default": 48000
+    },
+    "video_rtp_clock_hz": {
+      "type": "integer",
+      "default": 90000
+    },
+    "target_jitter_buffer_ms": {
+      "type": "integer",
+      "default": 90
+    },
+    "max_jitter_buffer_ms": {
+      "type": "integer",
+      "default": 250
+    },
+    "late_frame_policy": {
+      "type": "string",
+      "enum": [
+        "DROP",
+        "REPEAT_LAST",
+        "DEGRADE_FPS",
+        "TIME_STRETCH_AUDIO"
+      ],
+      "default": "DROP"
+    },
+    "resync_threshold_ms": {
+      "type": "integer",
+      "default": 120
+    }
+  },
+  "required": [
+    "mode"
+  ]
+}

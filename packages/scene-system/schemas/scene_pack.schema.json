@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ScenePack",
+  "type": "object",
+  "required": [
+    "scene_pack_id",
+    "version",
+    "presets"
+  ],
+  "properties": {
+    "scene_pack_id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "presets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "preset_id",
+          "title",
+          "prompt_recipe"
+        ],
+        "properties": {
+          "preset_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "defaults": {
+            "type": "object"
+          },
+          "prompt_recipe": {
+            "type": "object",
+            "required": [
+              "positive",
+              "negative"
+            ],
+            "properties": {
+              "positive": {
+                "type": "string"
+              },
+              "negative": {
+                "type": "string"
+              },
+              "style_prompt": {
+                "type": "string"
+              }
+            }
+          },
+          "reference_image_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "constraints": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

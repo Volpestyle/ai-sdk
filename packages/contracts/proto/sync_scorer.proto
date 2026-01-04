@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package ai_sdk.lipsync.v1;
+
+import "common.proto";
+import "face_track.proto";
+
+message SyncScoreRequest {
+  oneof audio {
+    BlobRef audio_ref = 1;
+    InlineBytes audio_inline = 2;
+  }
+  oneof frames {
+    BlobRef frames_ref = 3;
+    InlineBytes frames_inline = 4;
+  }
+  // Optional mouth ROI (preferred) or face ROI
+  ROITransform mouth_roi = 5;
+
+  int32 frame_count = 6;
+  int32 fps = 7;
+  string window_id = 8;
+}
+
+message LipSyncScore {
+  string window_id = 1;
+  // score in [0,1], or omit if not applicable
+  double score = 2;
+  double offset_ms = 3;
+  double confidence = 4;
+  string label = 5;
+}
+
+message SyncScoreResponse {
+  LipSyncScore result = 1;
+}
+
+service SyncScorerService {
+  rpc ScoreBlock(SyncScoreRequest) returns (SyncScoreResponse);
+}

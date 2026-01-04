@@ -1,0 +1,14 @@
+%% FT-Gen end-to-end (service view)
+flowchart TB
+  C[Client] -->|text| G[Session Gateway]
+  G --> M[Moderation]
+  G --> O["Conversation Orchestrator<br/>(sticky worker)"]
+  O --> P["planning-control<br/>LLM TurnPlan"]
+  O --> T["audio-speech<br/>Streaming TTS"]
+  T --> F["audio-speech<br/>FeatureSvc"]
+  F --> V["video-render<br/>I2V backend"]
+  V --> D["identity-drift<br/>scores+actions"]
+  V --> E[Encoder/WebRTC]
+  E --> C
+  O --> S[storage-metadata]
+  O --> X[observability-cost]

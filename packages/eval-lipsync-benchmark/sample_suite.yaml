@@ -1,0 +1,30 @@
+# Example eval suite configuration
+suite_id: lipsync_smoke_v1
+defaults:
+  language: en-US
+  lip_warn: 0.55
+  lip_fail: 0.45
+  window_sec: 1.0
+cases:
+  - case_id: plosives_fast
+    text: "Bob bought a big blue balloon."
+    tts_backend: openai
+    voice_id: default
+    render_backend: local_liveportrait
+  - case_id: fricatives
+    text: "She sells seashells by the seashore."
+    tts_backend: elevenlabs
+    voice_id: narrator
+    render_backend: provider_heygen
+  - case_id: long_sentence
+    text: "If you want, I can break this down into three parts and continue after this clip."
+    tts_backend: openai
+    voice_id: default
+    render_backend: local_liveportrait
+network_profiles:
+  - name: clean
+    jitter_ms: 10
+    loss_pct: 0.1
+  - name: mobile_bad
+    jitter_ms: 60
+    loss_pct: 2.0

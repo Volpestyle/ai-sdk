@@ -1,0 +1,24 @@
+stateDiagram-v2
+  [*] --> NORMAL
+
+  NORMAL --> WARN: sync_score < warn OR drift_warn
+  WARN --> NORMAL: recovered for N blocks
+
+  WARN --> CORRECT: sync_score < fail AND caps.supports_mouth_corrector
+  WARN --> RERENDER: drift_fail AND caps.supports_rerender_block
+  WARN --> DEGRADE: latency_budget_exceeded OR sustained_warn
+
+  CORRECT --> NORMAL: score recovered
+  CORRECT --> DEGRADE: correction_latency_too_high
+
+  RERENDER --> NORMAL: rerender_ok
+  RERENDER --> RESET_ANCHOR: rerender_failed_k_times
+
+  DEGRADE --> NORMAL: load recovers AND score ok
+  DEGRADE --> FAILOVER: sustained_fail AND caps.supports_failover
+
+  RESET_ANCHOR --> NORMAL: anchor_reset_ok
+  FAILOVER --> NORMAL: new_backend_ok
+  FAILOVER --> HARD_FAIL: no_backends_available
+
+  HARD_FAIL --> [*]

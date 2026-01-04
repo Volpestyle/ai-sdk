@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package ai_sdk.lipsync.v1;
+
+// A reference to binary data stored elsewhere (shared memory, object store, etc.)
+message BlobRef {
+  // Example: shm://session123/block5/mouth_roi_frames
+  //          s3://bucket/path/to/object
+  //          file:///tmp/clip.mp4
+  string uri = 1;
+
+  // Example: "rgb24", "yuv420p", "pcm_s16le", "opus", "mp4"
+  string format = 2;
+
+  int32 width = 3;
+  int32 height = 4;
+  int32 sample_rate_hz = 5;
+  int32 channels = 6;
+}
+
+// Optional inline payload for small monitoring use cases.
+// For production, prefer BlobRef.
+message InlineBytes {
+  bytes data = 1;
+  string format = 2;
+  int32 width = 3;
+  int32 height = 4;
+  int32 sample_rate_hz = 5;
+  int32 channels = 6;
+}

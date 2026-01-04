@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package ai_sdk.lipsync.v1;
+
+message PlaybackHealth {
+  double av_offset_ms = 1;
+  double late_video_frames_per_s = 2;
+  double jitter_buffer_ms = 3;
+}
+
+message AvSyncPolicy {
+  string mode = 1; // local_encode | provider_bridge
+  int32 audio_sample_rate_hz = 2;
+  int32 video_rtp_clock_hz = 3;
+  int32 target_jitter_buffer_ms = 4;
+  int32 max_jitter_buffer_ms = 5;
+  string late_frame_policy = 6;
+  int32 resync_threshold_ms = 7;
+}
+
+message AvSyncStatsIngest {
+  string session_id = 1;
+  // raw stats as JSON to avoid binding to a single WebRTC stats schema
+  string webrtc_stats_json = 2;
+}
+
+message AvSyncMonitorResponse {
+  PlaybackHealth health = 1;
+}
+
+service AvSyncMonitorService {
+  rpc IngestStats(AvSyncStatsIngest) returns (AvSyncMonitorResponse);
+}

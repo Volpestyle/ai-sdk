@@ -1,0 +1,9 @@
+%% PersonaPack lifecycle
+flowchart TB
+  A["Raw inputs<br/>(images / video / voice refs)"] --> B[QC + moderation gate]
+  B --> C["Detection + alignment<br/>(face bbox, landmarks)"]
+  C --> D["Matting/masks<br/>(optional)"]
+  D --> E["Embeddings<br/>(face/style/voice)"]
+  E --> F["Anchor sets<br/>(tag pose/expression/lighting)"]
+  F --> G["Publish PersonaPack vN<br/>(immutable)"]
+  G --> H["Runtime load<br/>(ft-gen/personastu)"]

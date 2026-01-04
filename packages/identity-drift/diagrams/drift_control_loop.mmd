@@ -1,0 +1,9 @@
+%% Drift monitor + corrective controller
+flowchart TB
+  A[Render block frames] --> B["Compute drift scores<br/>(identity/style/flicker/lipsync)"]
+  B --> C{Score band?}
+  C -- OK --> D[Continue]
+  C -- WARN --> E["Increase anchoring<br/>reduce motion"]
+  C -- FAIL --> F["Re-render block<br/>or anchor reset"]
+  E --> D
+  F --> D

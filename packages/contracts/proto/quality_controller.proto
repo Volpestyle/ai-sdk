@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package ai_sdk.lipsync.v1;
+
+message BackendCapabilities {
+  string backend_id = 1;
+  bool supports_rerender_block = 2;
+  bool supports_anchor_reset = 3;
+  bool supports_mouth_corrector = 4;
+  bool supports_viseme_conditioning = 5;
+  bool supports_restart_stream = 6;
+  bool supports_param_update = 7;
+  bool supports_failover = 8;
+  bool provides_webRTC_stream = 9;
+}
+
+message LipSyncSignal {
+  string window_id = 1;
+  double score = 2;
+  double offset_ms = 3;
+  double confidence = 4;
+  bool occluded = 5;
+  bool is_silence = 6;
+}
+
+message DriftSignal {
+  double identity_similarity = 1;
+  double bg_similarity = 2;
+  double flicker_score = 3;
+  double pose_jitter_deg_per_s = 4;
+}
+
+message PlaybackHealth {
+  double av_offset_ms = 1;
+  double late_video_frames_per_s = 2;
+  double jitter_buffer_ms = 3;
+}
+
+message SystemHealth {
+  double render_fps = 1;
+  double gpu_util = 2;
+  int32 queue_depth = 3;
+  double p99_block_latency_ms = 4;
+}
+
+message TurnContext {
+  string session_id = 1;
+  string persona_id = 2;
+  string mode = 3;
+  double remaining_turn_sec = 4;
+  double hardcap_turn_sec = 5;
+}
+
+message DecideRequest {
+  BackendCapabilities caps = 1;
+  LipSyncSignal lipsync = 2;
+  DriftSignal drift = 3;
+  PlaybackHealth playback = 4;
+  SystemHealth system = 5;
+  TurnContext ctx = 6;
+  // opaque controller state blob
+  bytes state = 7;
+}
+
+message QualityAction {
+  string type = 1;
+  // JSON-ish key/value as strings for simplicity in proto
+  map<string,string> params = 2;
+}
+
+message DecideResponse {
+  repeated QualityAction actions = 1;
+  bytes new_state = 2;
+}
+
+service QualityControllerService {
+  rpc Decide(DecideRequest) returns (DecideResponse);
+}

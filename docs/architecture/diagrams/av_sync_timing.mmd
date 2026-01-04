@@ -1,0 +1,22 @@
+sequenceDiagram
+  participant R as Renderer
+  participant E as Encoder
+  participant A as AV-Sync Clock
+  participant W as WebRTC Sender
+  participant C as Client
+
+  Note over A: master_clock = monotonic clock
+  R->>E: frames(block_i)
+  R->>E: audio(pcm_i)
+
+  E->>A: request_pts(video, block_i)
+  A-->>E: video_pts_i
+
+  E->>A: request_pts(audio, chunk_i)
+  A-->>E: audio_pts_i
+
+  E->>W: send video packet (pts=video_pts_i)
+  E->>W: send audio packet (pts=audio_pts_i)
+
+  W->>C: WebRTC RTP packets
+  Note over C: jitter buffer aligns audio/video by PTS

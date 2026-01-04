@@ -1,0 +1,10 @@
+%% Ingestion & normalization
+flowchart TB
+  A[Capture/Upload] --> B["Moderation gate<br/>(optional early)"]
+  B --> C[Decode + normalize]
+  C --> D[QC scoring]
+  D -->|pass| E[Detect/align]
+  D -->|fail| X[Reject + user guidance]
+  E --> F[Matting/segmentation]
+  F --> G["Embeddings (optional)"]
+  G --> H["IngestedAsset<br/>(refs + metadata)"]

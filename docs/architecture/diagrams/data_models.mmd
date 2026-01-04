@@ -1,0 +1,39 @@
+%% Shared data artifacts (high level)
+erDiagram
+  PersonaPack ||--o{ AnchorSet : contains
+  PersonaPack ||--o{ VoiceProfile : has
+  PersonaPack ||--o{ BehaviorPolicy : has
+  ScenePack ||--o{ ScenePreset : contains
+  SessionState ||--|| PersonaPack : references
+  GenJob ||--o{ StepRun : has
+  GenJob ||--o{ MediaAsset : produces
+  MediaAsset ||--o{ SeedRecord : records
+
+  PersonaPack {
+    string persona_id
+    string version
+    json anchors_by_mode
+  }
+  ScenePack {
+    string scene_pack_id
+    string version
+    json presets
+  }
+  SessionState {
+    string session_id
+    string persona_id
+    string persona_version
+    json drift_stats
+  }
+  GenJob {
+    string job_id
+    string type
+    json inputs
+    json state
+  }
+  MediaAsset {
+    string asset_id
+    string kind
+    string uri
+    json metadata
+  }

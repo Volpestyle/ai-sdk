@@ -1,0 +1,41 @@
+%% SDK overview (shared components + app layers)
+flowchart TB
+  subgraph Apps
+    FT["FT-Gen App<br/>(Web/iOS/Android)"]
+    PS["Personastu App<br/>(Capture/Editor/Publishing)"]
+  end
+
+  subgraph Shared_SDK["Shared SDK Components"]
+    PC["persona-core<br/>PersonaPack"]
+    SC["scene-system<br/>ScenePack"]
+    IN[ingestion-normalization]
+    PL["planning-control<br/>TurnPlan/ScenePlan"]
+    OR["orchestration-runtime<br/>(stream + batch)"]
+    ID["identity-drift<br/>(drift monitor)"]
+    AU["audio-speech<br/>(TTS/ASR/features)"]
+    VR["video-render<br/>(I2V backend adapter)"]
+    PP[postprocess-compositing]
+    MO[moderation-policy]
+    ST[storage-metadata]
+    DL[delivery-playback]
+    OB[observability-cost]
+  end
+
+  FT --> OR
+  PS --> OR
+
+  OR --> MO
+  OR --> PL
+  OR --> IN
+  OR --> PC
+  OR --> SC
+  OR --> ID
+  OR --> AU
+  OR --> VR
+  OR --> PP
+  OR --> ST
+  OR --> DL
+  OR --> OB
+
+  DL --> FT
+  DL --> PS

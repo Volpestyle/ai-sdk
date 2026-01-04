@@ -1,0 +1,10 @@
+flowchart LR
+  Suite[EvalSuite YAML] --> Runner[Benchmark Runner]
+  Runner -->|local| Local[Local Render]
+  Runner -->|provider| Prov[Provider Stream]
+  Local --> Clip[Recorded Clip]
+  Prov --> Clip
+  Clip --> FaceTrack[Face Track]
+  FaceTrack --> SyncScore[Sync Scorer]
+  SyncScore --> Metrics[Metrics + Gates]
+  Metrics --> Report[JSON/MD Report]

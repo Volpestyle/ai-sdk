@@ -1,0 +1,12 @@
+%% Personastu end-to-end (job view)
+flowchart TB
+  U[User] --> A[Capture/Upload]
+  A --> M[Moderation + QC]
+  M --> I["ingestion-normalization<br/>(masks + alignment)"]
+  I --> P["planning-control<br/>(ScenePlan/ShotPlan)"]
+  P --> O["orchestration-runtime<br/>(batch jobs)"]
+  O --> G["Generation<br/>(image models)"]
+  G --> C["postprocess-compositing<br/>(composite+upscale)"]
+  C --> S[storage-metadata]
+  S --> D["delivery-playback<br/>(CDN links)"]
+  D --> U

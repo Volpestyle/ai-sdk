@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package ai_sdk.lipsync.v1;
+
+import "common.proto";
+
+message VisemeAlignRequest {
+  string utterance_id = 1;
+  string text = 2;
+  string language = 3;
+  oneof audio {
+    BlobRef audio_ref = 4;
+    InlineBytes audio_inline = 5;
+  }
+  // Preferred source if available:
+  string preferred_source = 6; // tts_alignment | forced_aligner | heuristic | asr_alignment
+}
+
+message VisemeEvent {
+  int32 start_ms = 1;
+  int32 end_ms = 2;
+  string viseme_id = 3;
+  double confidence = 4;
+}
+
+message VisemeTimeline {
+  string utterance_id = 1;
+  string language = 2;
+  string source = 3;
+  repeated VisemeEvent visemes = 4;
+}
+
+message VisemeAlignResponse {
+  VisemeTimeline timeline = 1;
+}
+
+service VisemeAlignerService {
+  rpc Align(VisemeAlignRequest) returns (VisemeAlignResponse);
+}

@@ -1,0 +1,6 @@
+flowchart LR
+  T[Text] --> G2P[G2P / phonemes]
+  A[Audio] --> Align[Alignment backend]
+  G2P --> Map[Phoneme->Viseme Map]
+  Align --> Map
+  Map --> TL[VisemeTimeline]

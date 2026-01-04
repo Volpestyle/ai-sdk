@@ -1,0 +1,11 @@
+%% Moderation gates (defense in depth)
+flowchart TB
+  A[User input] --> B[Moderate input text]
+  B -->|allow| C[LLM / Planner]
+  B -->|block| X[Refuse + explain]
+  C --> D[Moderate output text]
+  D -->|allow| E[TTS / Image / Video gen]
+  D -->|block| X
+  E --> F["Sample outputs<br/>(frames/images)"]
+  F -->|allow| G[Deliver]
+  F -->|block| H[Quarantine + review]

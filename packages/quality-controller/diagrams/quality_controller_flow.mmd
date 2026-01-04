@@ -1,0 +1,6 @@
+flowchart TD
+  Sig[Signals] --> Band[Banding + Hysteresis]
+  Band --> Decide[Decide Actions]
+  Decide --> Actions[Action List]
+  Decide --> State[Updated Controller State]
+  Cap[Backend Capabilities] --> Decide

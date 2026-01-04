@@ -1,0 +1,15 @@
+flowchart TD
+  In[User Text] --> ModIn[Input Moderation]
+  ModIn --> Plan[TurnPlan (LLM)]
+  Plan --> TTS[Streaming TTS]
+  TTS --> Feats[Audio Features]
+  Feats --> Render[Local Render (LivePortrait/I2V)]
+  Render --> Blocks[Frame Blocks]
+  Blocks --> FaceTrack[Face Track + ROI]
+  FaceTrack --> SyncScore[Sync Scorer]
+  SyncScore --> QC[Quality Controller]
+  QC -->|rerender| Render
+  QC -->|fallback fix| MouthFix[MuseTalk/Wav2Lip]
+  MouthFix --> Enc[Encode]
+  Enc --> AVSync[A/V Sync]
+  AVSync --> WebRTC[WebRTC to Client]

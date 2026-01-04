@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package ai_sdk.lipsync.v1;
+
+import "common.proto";
+
+message FaceTrackRequest {
+  // Either provide BlobRef or InlineBytes in oneof.
+  oneof frames {
+    BlobRef frames_ref = 1;
+    InlineBytes frames_inline = 2;
+  }
+  // If frames_ref points to multiple frames, supply metadata:
+  int32 frame_count = 3;
+  int32 fps = 4;
+  string session_id = 5;
+}
+
+message ROITransform {
+  // [x,y,w,h] pixels
+  repeated float crop_xywh = 1;
+  // 2x3 affine row-major (optional)
+  repeated float affine_2x3 = 2;
+  repeated int32 normalized_size = 3;
+}
+
+message FaceObservation {
+  string track_id = 1;
+  repeated float bbox_xywh = 2;
+  repeated float pose_yaw_pitch_roll = 3;
+  float confidence = 4;
+  ROITransform mouth_roi = 5;
+  ROITransform face_roi = 6;
+  repeated string occlusion_flags = 7;
+}
+
+message FaceTrackResult {
+  string frame_id = 1;
+  int64 timestamp_ms = 2;
+  repeated FaceObservation faces = 3;
+}
+
+message FaceTrackResponse {
+  repeated FaceTrackResult results = 1;
+}
+
+service FaceTrackService {
+  rpc Track(FaceTrackRequest) returns (FaceTrackResponse);
+}
