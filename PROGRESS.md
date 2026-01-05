@@ -17,7 +17,7 @@ This file tracks implementation progress for the component specs under `web/ai-s
 ### M1 — Contracts-first foundations
 - [x] Spec: `packages/contracts/product_spec.md`
 - [x] Spec: `packages/contracts/tech_spec.md`
-- [ ] Code: consolidated runtime types/helpers (JS) for shared contracts
+- [x] Code: consolidated runtime types/helpers (JS) for shared contracts
 - [ ] Tests: basic schema/examples smoke tests
 
 ### M2 — Lip-sync reliability (reference implementations)
@@ -54,7 +54,7 @@ This file tracks implementation progress for the component specs under `web/ai-s
 ### M4 — Media generation + delivery (stubs + adapters)
 - [x] `packages/audio-speech`: adapter interfaces + streaming chunk contracts
 - [x] `packages/video-render`: backend adapter interface + “block loop” skeleton
-- [ ] `packages/postprocess-compositing`: compositing pipeline stubs
+- [x] `packages/postprocess-compositing`: compositing pipeline stubs
 - [x] `packages/delivery-playback`: delivery abstractions (WebRTC/CDN) stubs
 
 ### M5 — Platform + policy
@@ -64,21 +64,31 @@ This file tracks implementation progress for the component specs under `web/ai-s
 
 ## Package status snapshot (docs already exist unless noted)
 
-- `packages/contracts`: specs ✅, proto ✅, code ⚠️ (types only)
+- `packages/contracts`: specs ✅, proto ✅, code ✅ (runtime helpers + types)
 - `packages/av-sync`: schema ✅, proto ✅ (in `packages/contracts/proto/av_sync.proto`), code ✅
 - `packages/quality-controller`: schema ✅, proto ✅, code ✅
 - `packages/sync-scorer`: schema ✅, proto ✅, code ✅ (heuristic fallback)
 - `packages/viseme-aligner`: schema ✅, proto ✅, code ✅ (mapping + heuristic)
-- `packages/face-track`: schema ✅, proto ✅, code ⚠️ (ROI helpers only)
+- `packages/face-track`: schema ✅, proto ✅, code ✅ (heuristic backend + ROI helpers)
 - `packages/planning-control`: schema ✅, code ✅
 - `packages/orchestration-runtime`: code ✅
 - `packages/persona-core`: schema ✅, code ✅ (registry + anchor selection)
 - `packages/scene-system`: schema ✅, code ✅ (scene resolver + cache)
 - `packages/audio-speech`: specs ✅, code ✅ (streaming adapters + features)
 - `packages/video-render`: specs ✅, code ✅ (noop backend + block loop)
+- `packages/ingestion-normalization`: specs ✅, code ✅ (ingest pipeline helpers)
 - `packages/identity-drift`: specs ✅, code ✅ (drift scoring helpers)
 - `packages/moderation-policy`: specs ✅, code ✅ (policy packs + keyword gating)
+- `packages/postprocess-compositing`: specs ✅, code ✅ (compositing helpers)
 - `packages/storage-metadata`: specs ✅, code ✅ (in-memory metadata store)
 - `packages/delivery-playback`: specs ✅, code ✅ (WebRTC scaffolding + CDN signing)
 - `packages/observability-cost`: specs ✅, code ✅ (tracing + cost ledger)
 - `packages/eval-lipsync-benchmark`: specs ✅, code ✅ (suite scoring helpers)
+
+## Python reference ports (initial)
+- `packages/av-sync/python`: helpers ported
+- `packages/quality-controller/python`: policy engine ported
+- `packages/sync-scorer/python`: heuristic scorer ported
+- `packages/identity-drift/python`: drift scoring helpers ported
+- `packages/viseme-aligner/python`: viseme mapping helpers ported
+- `packages/face-track/python`: ROI helpers + heuristic backend ported
