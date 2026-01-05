@@ -1,52 +1,52 @@
 # Components
 
 ## Docs Index
-- [[sdk|SDK Index]]
-- [[ai-sdk/docs/architecture/00_overview|Component Specs Overview]]
-- [[ai-sdk/docs/architecture/01_component_index|Component Index]]
-- [[ai-sdk/docs/architecture/02_model_matrix|Model / Provider Matrix]]
-- [[ai-sdk/docs/architecture/03_reference_architecture|Reference Architecture]]
-- [[ai-sdk/docs/architecture/04_security_and_policy|Security and Policy Notes]]
-- [[ai-sdk/docs/architecture/05_lipsync_reliability|Lip-sync reliability additions]]
-- [[ai-sdk/docs/architecture/06_lipsync_merge_notes|Lip-sync merge notes]]
-- [[ai-sdk/docs/architecture/07_backend_capabilities|Backend capability profiles]]
+- [SDK Index](sdk.md)
+- [Component Specs Overview](architecture/00_overview.md)
+- [Component Index](architecture/01_component_index.md)
+- [Model / Provider Matrix](architecture/02_model_matrix.md)
+- [Reference Architecture](architecture/03_reference_architecture.md)
+- [Security and Policy Notes](architecture/04_security_and_policy.md)
+- [Lip-sync reliability additions](architecture/05_lipsync_reliability.md)
+- [Lip-sync merge notes](architecture/06_lipsync_merge_notes.md)
+- [Backend capability profiles](architecture/07_backend_capabilities.md)
 
 ## Canonical packages (grouped)
 Each component ships as a library package and/or service. Detailed specs live under `ai-sdk/packages`.
 
 ### Foundation
-- contracts: [[ai-sdk/packages/contracts/service_contracts|service contracts]]
-- persona-core: [[ai-sdk/packages/persona-core/product_spec|product spec]] / [[ai-sdk/packages/persona-core/tech_spec|tech spec]]
-- scene-system: [[ai-sdk/packages/scene-system/product_spec|product spec]] / [[ai-sdk/packages/scene-system/tech_spec|tech spec]]
+- contracts: [service contracts](../packages/contracts/service_contracts.md)
+- persona-core: [product spec](../packages/persona-core/product_spec.md) / [tech spec](../packages/persona-core/tech_spec.md)
+- scene-system: [product spec](../packages/scene-system/product_spec.md) / [tech spec](../packages/scene-system/tech_spec.md)
 
 ### Ingest + Perception
-- ingestion-normalization: [[ai-sdk/packages/ingestion-normalization/product_spec|product spec]] / [[ai-sdk/packages/ingestion-normalization/tech_spec|tech spec]]
-- face-track: [[ai-sdk/packages/face-track/product_spec|product spec]] / [[ai-sdk/packages/face-track/tech_spec|tech spec]]
+- ingestion-normalization: [product spec](../packages/ingestion-normalization/product_spec.md) / [tech spec](../packages/ingestion-normalization/tech_spec.md)
+- face-track: [product spec](../packages/face-track/product_spec.md) / [tech spec](../packages/face-track/tech_spec.md)
 
 ### Planning + Runtime
-- planning-control: [[ai-sdk/packages/planning-control/product_spec|product spec]] / [[ai-sdk/packages/planning-control/tech_spec|tech spec]]
-- orchestration-runtime: [[ai-sdk/packages/orchestration-runtime/product_spec|product spec]] / [[ai-sdk/packages/orchestration-runtime/tech_spec|tech spec]]
+- planning-control: [product spec](../packages/planning-control/product_spec.md) / [tech spec](../packages/planning-control/tech_spec.md)
+- orchestration-runtime: [product spec](../packages/orchestration-runtime/product_spec.md) / [tech spec](../packages/orchestration-runtime/tech_spec.md)
 
 ### Media Generation + Delivery
-- audio-speech: [[ai-sdk/packages/audio-speech/product_spec|product spec]] / [[ai-sdk/packages/audio-speech/tech_spec|tech spec]]
-- video-render: [[ai-sdk/packages/video-render/product_spec|product spec]] / [[ai-sdk/packages/video-render/tech_spec|tech spec]]
-- postprocess-compositing: [[ai-sdk/packages/postprocess-compositing/product_spec|product spec]] / [[ai-sdk/packages/postprocess-compositing/tech_spec|tech spec]]
-- delivery-playback: [[ai-sdk/packages/delivery-playback/product_spec|product spec]] / [[ai-sdk/packages/delivery-playback/tech_spec|tech spec]]
-- av-sync: [[ai-sdk/packages/av-sync/product_spec|product spec]] / [[ai-sdk/packages/av-sync/tech_spec|tech spec]]
+- audio-speech: [product spec](../packages/audio-speech/product_spec.md) / [tech spec](../packages/audio-speech/tech_spec.md)
+- video-render: [product spec](../packages/video-render/product_spec.md) / [tech spec](../packages/video-render/tech_spec.md)
+- postprocess-compositing: [product spec](../packages/postprocess-compositing/product_spec.md) / [tech spec](../packages/postprocess-compositing/tech_spec.md)
+- delivery-playback: [product spec](../packages/delivery-playback/product_spec.md) / [tech spec](../packages/delivery-playback/tech_spec.md)
+- av-sync: [product spec](../packages/av-sync/product_spec.md) / [tech spec](../packages/av-sync/tech_spec.md)
 
 ### Quality + Evaluation
-- viseme-aligner: [[ai-sdk/packages/viseme-aligner/product_spec|product spec]] / [[ai-sdk/packages/viseme-aligner/tech_spec|tech spec]]
-- sync-scorer: [[ai-sdk/packages/sync-scorer/product_spec|product spec]] / [[ai-sdk/packages/sync-scorer/tech_spec|tech spec]]
-- quality-controller: [[ai-sdk/packages/quality-controller/product_spec|product spec]] / [[ai-sdk/packages/quality-controller/tech_spec|tech spec]]
-- identity-drift: [[ai-sdk/packages/identity-drift/product_spec|product spec]] / [[ai-sdk/packages/identity-drift/tech_spec|tech spec]]
-- eval-lipsync-benchmark: [[ai-sdk/packages/eval-lipsync-benchmark/product_spec|product spec]] / [[ai-sdk/packages/eval-lipsync-benchmark/tech_spec|tech spec]]
+- viseme-aligner: [product spec](../packages/viseme-aligner/product_spec.md) / [tech spec](../packages/viseme-aligner/tech_spec.md)
+- sync-scorer: [product spec](../packages/sync-scorer/product_spec.md) / [tech spec](../packages/sync-scorer/tech_spec.md)
+- quality-controller: [product spec](../packages/quality-controller/product_spec.md) / [tech spec](../packages/quality-controller/tech_spec.md)
+- identity-drift: [product spec](../packages/identity-drift/product_spec.md) / [tech spec](../packages/identity-drift/tech_spec.md)
+- eval-lipsync-benchmark: [product spec](../packages/eval-lipsync-benchmark/product_spec.md) / [tech spec](../packages/eval-lipsync-benchmark/tech_spec.md)
 
 ### Platform
-- storage-metadata: [[ai-sdk/packages/storage-metadata/product_spec|product spec]] / [[ai-sdk/packages/storage-metadata/tech_spec|tech spec]]
-- observability-cost: [[ai-sdk/packages/observability-cost/product_spec|product spec]] / [[ai-sdk/packages/observability-cost/tech_spec|tech spec]]
+- storage-metadata: [product spec](../packages/storage-metadata/product_spec.md) / [tech spec](../packages/storage-metadata/tech_spec.md)
+- observability-cost: [product spec](../packages/observability-cost/product_spec.md) / [tech spec](../packages/observability-cost/tech_spec.md)
 
 ### Policy
-- moderation-policy: [[ai-sdk/packages/moderation-policy/product_spec|product spec]] / [[ai-sdk/packages/moderation-policy/tech_spec|tech spec]]
+- moderation-policy: [product spec](../packages/moderation-policy/product_spec.md) / [tech spec](../packages/moderation-policy/tech_spec.md)
 
 ## Suggested service boundaries
 This is a deployment-oriented view (not strict architecture). Most packages can run as an in-process library, but some are typically isolated as services for GPU/latency/throughput reasons.
@@ -72,11 +72,11 @@ This is a deployment-oriented view (not strict architecture). Most packages can 
 - `eval-lipsync-benchmark` (offline evaluation harness)
 
 ## Shared artifacts
-- [[ai-sdk/docs/architecture/diagrams/data_models|Data models diagram]]
+- [Data models diagram](architecture/diagrams/data_models.png)
 - Contracts (shared types + gRPC proto) live under `ai-sdk/packages/contracts/`.
 - Schemas live under `ai-sdk/packages/<name>/schemas/`.
 - Diagrams live under `ai-sdk/packages/<name>/diagrams/`.
 
 ## Example integrations
-- [[ai-sdk/apps/ft-gen/integration/integration_notes|FT-Gen integration notes]]
-- [[ai-sdk/apps/personastu/integration/integration_notes|Personastu integration notes]]
+- [FT-Gen integration notes](../apps/ft-gen/integration/integration_notes.md)
+- [Personastu integration notes](../apps/personastu/integration/integration_notes.md)

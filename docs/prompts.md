@@ -1,16 +1,16 @@
 ### Research SDK Implementation (GPT Pro)
-Result: [[README|AI SDK component specs]]
+Result: [AI SDK component specs](../README.md)
 im developing a ai-sdk, which is a suite of packages and tools for AI powered applications. Think AI model pipelines and constructs that can potentially be mixed and matched.
 
 for example, we have this product spec for an app:
-[[ai-sdk/packages/av-sync/product_spec]]
+[product_spec](../packages/av-sync/product_spec.md)
 
 and take this other high level spec idea:
-[[Personastu]]
+[Personastu](../apps/personastu/Personastu.md)
 
 These are two apps which could use many of the same components!
 We've done a break down analysis of what such components could be here:
-[[components]]
+[components](components.md)
 
 -------------------
 

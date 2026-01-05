@@ -13,10 +13,10 @@ persona-core, scene-system (fixed stage), planning-control, orchestration-runtim
 Session gateway/WebRTC signaling, conversation memory, turn-length policy, timeline scrub UI.
 
 ## Links
-- [[sdk]]
-- [[components]]
-- [[ai-sdk/apps/ft-gen/integration/integration_notes|FT-Gen integration notes]]
-- [[ai-sdk/apps/ft-gen/integration/diagrams/ftgen_end_to_end|FT-Gen end-to-end diagram]]
-- [[ft-gen/docs/product_spec|FT-Gen Product Spec]]
-- [[ft-gen/docs/tech_spec|FT-Gen Tech Spec]]
-- [[ft-gen/docs/gen_pipeline_spec|FT-Gen Generation Pipeline]]
+- [sdk](../../docs/sdk.md)
+- [components](../../docs/components.md)
+- [FT-Gen integration notes](integration/integration_notes.md)
+- [FT-Gen end-to-end diagram](integration/diagrams/ftgen_end_to_end.png)
+- [FT-Gen Product Spec](https://github.com/Volpestyle/ft-gen/blob/main/docs/product_spec.md)
+- [FT-Gen Tech Spec](https://github.com/Volpestyle/ft-gen/blob/main/docs/tech_spec.md)
+- [FT-Gen Generation Pipeline](https://github.com/Volpestyle/ft-gen/blob/main/docs/gen_pipeline_spec.md)

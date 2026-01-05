@@ -13,7 +13,7 @@ persona-core, scene-system, ingestion-normalization, planning-control, orchestra
 Capture/editor UI, batch shots, scheduling/publishing.
 
 ## Links
-- [[sdk]]
-- [[components]]
-- [[ai-sdk/apps/personastu/integration/integration_notes|Personastu integration notes]]
-- [[ai-sdk/apps/personastu/integration/diagrams/personastu_end_to_end|Personastu end-to-end diagram]]
+- [sdk](../../docs/sdk.md)
+- [components](../../docs/components.md)
+- [Personastu integration notes](integration/integration_notes.md)
+- [Personastu end-to-end diagram](integration/diagrams/personastu_end_to_end.png)
