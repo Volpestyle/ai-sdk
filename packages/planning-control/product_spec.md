@@ -12,7 +12,7 @@ Key artifacts:
 - Segmenting speech enables “prefer short” while supporting longer responses without janky cutoffs.
 
 ## User stories
-1. Generate a TurnPlan that fits a 4–30s spoken-audio policy.
+1. Generate a TurnPlan that fits a 4–10s spoken-audio policy (v0 default; configurable).
 2. Generate a ShotPlan for a batch of influencer-style images with consistent scene/style.
 3. Validate and clamp plans against persona policies and app constraints.
 

@@ -10,11 +10,12 @@
   ],
   "properties": {
     "speech_budget_sec_target": {
-      "type": "number"
+      "type": "number",
+      "maximum": 10
     },
     "speech_budget_sec_hardcap": {
       "type": "number",
-      "const": 30
+      "const": 10
     },
     "speech_segments": {
       "type": "array",

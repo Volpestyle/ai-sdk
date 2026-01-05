@@ -22,7 +22,7 @@ test("createHeuristicTurnPlan produces a valid TurnPlan shape", () => {
 test("validateTurnPlan rejects missing segments", () => {
   const v = validateTurnPlan({
     speech_budget_sec_target: 5,
-    speech_budget_sec_hardcap: 30,
+    speech_budget_sec_hardcap: 10,
     speech_segments: [],
     actor_timeline: [],
   });
@@ -33,12 +33,12 @@ test("validateTurnPlan rejects missing segments", () => {
 test("clampTurnPlan sorts by priority, clamps camera mode, trims segments, and inserts default actor timeline", () => {
   const input = {
     speech_budget_sec_target: 10,
-    speech_budget_sec_hardcap: 30,
+    speech_budget_sec_hardcap: 10,
     camera_mode_suggestion: "NOT_A_MODE",
     speech_segments: [
-      { priority: 2, text: "c", est_sec: 5 },
-      { priority: 0, text: "a", est_sec: 25 },
-      { priority: 1, text: "b", est_sec: 5 },
+      { priority: 2, text: "c", est_sec: 4 },
+      { priority: 0, text: "a", est_sec: 8 },
+      { priority: 1, text: "b", est_sec: 4 },
     ],
     actor_timeline: [],
   };
@@ -49,6 +49,5 @@ test("clampTurnPlan sorts by priority, clamps camera mode, trims segments, and i
   assert.equal(plan.speech_segments[0].priority, 0);
   assert.equal(plan.speech_segments.length, 1);
   assert.equal(plan.actor_timeline.length, 1);
-  assert.ok(plan.actor_timeline[0].t1 >= 25);
+  assert.ok(plan.actor_timeline[0].t1 >= 8);
 });
-

@@ -14,9 +14,9 @@ import { fileURLToPath } from "node:url";
 export const CAMERA_MODES = Object.freeze(["A_SELFIE", "B_MIRROR", "C_CUTAWAY"]);
 
 export const DEFAULT_BUDGET = Object.freeze({
-  hardcap_sec: 30,
+  hardcap_sec: 10,
   min_target_sec: 4,
-  default_target_range_sec: [6, 10],
+  default_target_range_sec: [5, 10],
   tail_buffer_sec: 0.6,
 });
 
@@ -92,6 +92,25 @@ export function readTurnPlanSchemaText() {
  */
 export function readTurnPlanSchemaJson() {
   return JSON.parse(readTurnPlanSchemaText());
+}
+
+/**
+ * @param {any} schema
+ * @param {Partial<typeof DEFAULT_BUDGET>} budget
+ * @returns {any}
+ */
+export function applyBudgetToTurnPlanSchema(schema, budget) {
+  if (!schema || typeof schema !== "object") return schema;
+  const hardcap = budget?.hardcap_sec ?? DEFAULT_BUDGET.hardcap_sec;
+  const props = schema.properties ?? {};
+  const target = props.speech_budget_sec_target ?? {};
+  const hardcapProp = props.speech_budget_sec_hardcap ?? {};
+  target.maximum = hardcap;
+  hardcapProp.const = hardcap;
+  props.speech_budget_sec_target = target;
+  props.speech_budget_sec_hardcap = hardcapProp;
+  schema.properties = props;
+  return schema;
 }
 
 /**
@@ -264,7 +283,8 @@ export function createHeuristicTurnPlan(args) {
  * @param {any} plan
  * @returns {TurnPlanValidation}
  */
-export function validateTurnPlan(plan) {
+export function validateTurnPlan(plan, opts) {
+  const budget = { ...DEFAULT_BUDGET, ...(opts?.budget ?? {}) };
   /** @type {string[]} */
   const errors = [];
   if (plan === null || typeof plan !== "object") errors.push("plan must be an object");
@@ -272,7 +292,10 @@ export function validateTurnPlan(plan) {
   const target = plan?.speech_budget_sec_target;
   const hardcap = plan?.speech_budget_sec_hardcap;
   if (typeof target !== "number" || !Number.isFinite(target) || target <= 0) errors.push("speech_budget_sec_target must be a positive number");
-  if (hardcap !== 30) errors.push("speech_budget_sec_hardcap must be 30");
+  if (hardcap !== budget.hardcap_sec) errors.push(`speech_budget_sec_hardcap must be ${budget.hardcap_sec}`);
+  if (typeof target === "number" && Number.isFinite(target) && typeof hardcap === "number" && target > hardcap) {
+    errors.push("speech_budget_sec_target must be <= speech_budget_sec_hardcap");
+  }
 
   if (!Array.isArray(plan?.speech_segments) || plan.speech_segments.length === 0) errors.push("speech_segments must be a non-empty array");
   if (Array.isArray(plan?.speech_segments)) {
@@ -310,7 +333,7 @@ export function validateTurnPlan(plan) {
 
 /**
  * Clamp a TurnPlan into an executable plan:
- * - enforce hardcap=30 and clamp target
+ * - enforce hardcap=10 and clamp target
  * - sort segments by priority and recompute/repair est_sec
  * - drop segments to fit within hardcap - tail_buffer (never cut mid-segment)
  * - clamp actor timeline fields to persona policy (optional)
@@ -462,12 +485,12 @@ export function buildTurnPlanPrompt(args) {
   const cam = args.camera_mode ?? "A_SELFIE";
   const language = args.language ?? "en";
 
-  const schemaText = readTurnPlanSchemaText();
+  const schemaText = JSON.stringify(applyBudgetToTurnPlanSchema(readTurnPlanSchemaJson(), budget), null, 2);
 
   const system = [
     "You are a planning engine that outputs STRICT JSON only.",
     "Produce a TurnPlan that matches the provided JSON schema exactly.",
-    `Constraints: hardcap=${budget.hardcap_sec}s, prefer ${budget.default_target_range_sec[0]}–${budget.default_target_range_sec[1]}s, minimum ${budget.min_target_sec}s unless ultra-short.`,
+    `Constraints: hardcap=${budget.hardcap_sec}s, default ~${budget.default_target_range_sec[0]}s, allow up to ${budget.default_target_range_sec[1]}s, minimum ${budget.min_target_sec}s unless ultra-short.`,
     `Camera modes: ${CAMERA_MODES.join(", ")}.`,
     "Speech segments must be ordered by priority (0 is highest priority).",
     "Never cut mid-segment; segments should be safe boundaries.",

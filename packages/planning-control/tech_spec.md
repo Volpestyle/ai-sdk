@@ -3,7 +3,7 @@
 ## TurnPlan contract (FT-Gen)
 Required:
 - `speech_budget_sec_target`
-- `speech_budget_sec_hardcap` (30)
+- `speech_budget_sec_hardcap` (10, configurable)
 - `speech_segments[]`: ordered by priority (stop safely between segments)
 - `actor_timeline[]`: emotion + gaze + listening/speaking transitions
 - `camera_mode_suggestion` (validated downstream)
@@ -12,7 +12,7 @@ Required:
 - Estimate seconds from text tokens/words (language-dependent), then:
   - default target: 6–10s
   - min: 4s (unless ultra-short reply)
-  - hard cap: 30s
+- hard cap: 10s (configurable)
 - Stream segments until `current_audio_duration >= hardcap - tail_buffer`
 - Never cut mid-segment unless user barges in.
 
