@@ -6,7 +6,7 @@ A pluggable “render engine” interface for **I2V talking-head generation**.
 It standardizes inputs/outputs so you can swap:
 - local research backends (e.g., LivePortrait)
 - provider realtime avatar APIs (HeyGen/D-ID/Simli/Tavus)
-- streaming i2v APIs when available (Kling 2.0)
+- streaming i2v APIs when available
 - offline clip generation (Sora 2, Kling 2.6 Pro) for highest quality renders
 
 ## Used by
