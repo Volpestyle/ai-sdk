@@ -6,7 +6,8 @@ A pluggable “render engine” interface for **I2V talking-head generation**.
 It standardizes inputs/outputs so you can swap:
 - local research backends (e.g., LivePortrait)
 - provider realtime avatar APIs (HeyGen/D-ID/Simli/Tavus)
-- offline clip generation (Sora 2) as a fallback path
+- streaming i2v APIs when available (Kling 2.0)
+- offline clip generation (Sora 2, Kling 2.6 Pro) for highest quality renders
 
 ## Used by
 - FT-Gen: core differentiator (per assistant turn → short video clip)
