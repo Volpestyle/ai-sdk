@@ -24,7 +24,7 @@ A family of persona-based apps that share the same persona creation tools and co
 
 ## Shared toolkit (canonical)
 - Contracts: PersonaPack, ScenePack, TurnPlan/ScenePlan, GenJob, MediaAsset (see component specs docs and schemas).
-- Core components: persona-core, scene-system, ingestion-normalization, planning-control, orchestration-runtime, audio-speech, video-render, face-track, viseme-aligner, sync-scorer, quality-controller, av-sync, identity-drift, postprocess-compositing, moderation-policy, storage-metadata, delivery-playback, observability-cost, eval-lipsync-benchmark.
+- Core components: persona-core, scene-system, ingestion-normalization, planning-control, orchestration-runtime, audio-speech, video-render, lipsync-generation, face-track, viseme-aligner, sync-scorer, quality-controller, av-sync, identity-drift, postprocess-compositing, moderation-policy, storage-metadata, delivery-playback, observability-cost, eval-lipsync-benchmark.
 - Routing: `ai-kit` for provider-agnostic LLM/image calls; video adapters live in the `video-render` layer.
 
 ## References

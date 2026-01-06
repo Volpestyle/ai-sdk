@@ -21,6 +21,7 @@ This SDK is organized as **reusable components**. Each component ships as:
 ### Media Generation + Delivery
 - `audio-speech` — streaming TTS/ASR, audio features, VAD, prosody tags
 - `video-render` — pluggable I2V/talking-head backend interface + streaming block loop
+- `lipsync-generation` — provider adapters for audio/video lip-sync postprocessing
 - `postprocess-compositing` — background replacement, relighting, upscaling, compression
 - `delivery-playback` — WebRTC + CDN delivery, signed URLs, caching
 - `av-sync` — media clocking + buffering policy + A/V sync monitoring
