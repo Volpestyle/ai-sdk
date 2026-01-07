@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-import os
+import base64
+import mimetypes
 import shutil
 import subprocess
-import urllib.request
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -162,43 +162,17 @@ def render_static_video(
     )
 
 
-def _download_url(url: str) -> bytes:
-    with urllib.request.urlopen(url, timeout=120) as resp:
-        return resp.read()
-
-
-def _coerce_output_to_bytes(output: Any) -> bytes:
-    if output is None:
-        raise ProviderError("provider returned no output")
-    if isinstance(output, bytes):
-        return output
-    if isinstance(output, str) and output.startswith("http"):
-        return _download_url(output)
-    if isinstance(output, dict) and isinstance(output.get("url"), str):
-        return _download_url(output["url"])
-    if isinstance(output, (list, tuple)) and output:
-        return _coerce_output_to_bytes(output[0])
-    raise ProviderError(f"unsupported output type: {type(output)}")
-
-
-def _replicate_client():
-    try:
-        from ai_kit.clients import ReplicateClient
-    except Exception as exc:
-        raise ProviderError("replicate_client_unavailable") from exc
-    return ReplicateClient()
-
-
-def _fal_client():
-    try:
-        from ai_kit.clients import FalClient
-    except Exception as exc:
-        raise ProviderError("fal_client_unavailable") from exc
-    return FalClient()
+def _encode_image_data_url(image_path: Path) -> str:
+    media_type, _ = mimetypes.guess_type(str(image_path))
+    if not media_type:
+        media_type = "image/png"
+    data = base64.b64encode(image_path.read_bytes()).decode("ascii")
+    return f"data:{media_type};base64,{data}"
 
 
 def generate_i2v_video_bytes(
     *,
+    kit,
     provider: str,
     model: str,
     prompt: str,
@@ -207,63 +181,33 @@ def generate_i2v_video_bytes(
     aspect_ratio: str,
     negative_prompt: str = "",
     extra_params: Optional[Dict[str, Any]] = None,
-    on_log=None,
 ) -> VideoBytes:
-    if provider == "fal":
-        client = _fal_client()
-        image_url = client.upload_file(anchor_path)
-        payload: Dict[str, Any] = {
-            "prompt": prompt,
-            "image_url": image_url,
-        }
-        duration_value = "5" if duration_sec <= 5 else "10"
-        payload["duration"] = duration_value
-        if negative_prompt:
-            payload["negative_prompt"] = negative_prompt
-        if extra_params:
-            payload.update(extra_params)
-        payload.setdefault("generate_audio", False)
+    if kit is None:
+        raise ProviderError("ai_kit_missing")
+    try:
+        from ai_kit import VideoGenerateInput
+    except Exception as exc:
+        raise ProviderError("ai_kit_unavailable") from exc
 
-        def _on_queue_update(update: Any) -> None:
-            logs = getattr(update, "logs", None)
-            if not logs or not on_log:
-                return
-            for entry in logs:
-                message = entry.get("message") if isinstance(entry, dict) else None
-                if message:
-                    on_log(str(message))
-
-        result = client._client.subscribe(  # type: ignore[attr-defined]
-            model,
-            arguments=payload,
-            with_logs=bool(on_log),
-            on_queue_update=_on_queue_update if on_log else None,
-        )
-        video = result.get("video") if isinstance(result, dict) else None
-        out_url = video.get("url") if isinstance(video, dict) else None
-        if not out_url:
-            raise ProviderError("fal_i2v_missing_url")
-        return VideoBytes(content=client.download_url(out_url), provider="fal", model=model)
-
-    if provider == "replicate":
-        client = _replicate_client()
-        params: Dict[str, Any] = {
-            "prompt": prompt,
-            "duration": duration_sec,
-            "aspect_ratio": aspect_ratio,
-        }
-        if negative_prompt:
-            params["negative_prompt"] = negative_prompt
-        if extra_params:
-            params.update(extra_params)
-
-        with anchor_path.open("rb") as image_file:
-            params["start_image"] = image_file
-            output = client.run(model, inputs=params)
-
-        return VideoBytes(content=_coerce_output_to_bytes(output), provider="replicate", model=model)
-
-    raise ProviderError(f"unsupported_i2v_provider:{provider}")
+    parameters = dict(extra_params or {})
+    input_data = VideoGenerateInput(
+        provider=provider,
+        model=model,
+        prompt=prompt,
+        startImage=_encode_image_data_url(anchor_path),
+        duration=float(duration_sec),
+        aspectRatio=aspect_ratio,
+        negativePrompt=negative_prompt or None,
+        parameters=parameters or None,
+    )
+    output = kit.generate_video(input_data)
+    if not output or not getattr(output, "data", None):
+        raise ProviderError("i2v_empty_output")
+    return VideoBytes(
+        content=base64.b64decode(output.data),
+        provider=provider,
+        model=model,
+    )
 
 
 def apply_lipsync(
