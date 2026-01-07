@@ -44,6 +44,7 @@ Each component ships as a library package and/or service. Detailed specs live un
 ### Platform
 - storage-metadata: [product spec](../packages/storage-metadata/product_spec.md) / [tech spec](../packages/storage-metadata/tech_spec.md)
 - observability-cost: [product spec](../packages/observability-cost/product_spec.md) / [tech spec](../packages/observability-cost/tech_spec.md)
+- ai-kit-runtime: [product spec](../packages/ai-kit-runtime/product_spec.md) / [tech spec](../packages/ai-kit-runtime/tech_spec.md)
 
 ### Policy
 - moderation-policy: [product spec](../packages/moderation-policy/product_spec.md) / [tech spec](../packages/moderation-policy/tech_spec.md)

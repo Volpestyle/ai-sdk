@@ -173,7 +173,7 @@ def _encode_image_data_url(image_path: Path) -> str:
 
 def generate_i2v_video_bytes(
     *,
-    ai_kit_client: "AiKitClient",
+    ai_kit_client: AiKitClient,
     prompt: str,
     anchor_path: Path,
     duration_sec: int,

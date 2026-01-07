@@ -164,7 +164,7 @@ def _ai_kit_tts_chunks(
     speed: Optional[float],
     parameters: Optional[dict[str, object]],
     chunk_ms: int,
-    ai_kit_client: "AiKitClient",
+    ai_kit_client: AiKitClient,
 ) -> List[PcmChunk]:
     try:
         from ai_kit import SpeechGenerateInput
@@ -218,7 +218,7 @@ def generate_tts_chunks(
     chunk_ms: int = 40,
     speed: Optional[float] = None,
     instructions: Optional[str] = None,
-    ai_kit_client: "AiKitClient" | None = None,
+    ai_kit_client: AiKitClient | None = None,
 ) -> List[PcmChunk]:
     response_format = os.environ.get("TTS_RESPONSE_FORMAT", "").strip().lower() or "wav"
     parameters: dict[str, object] = {}

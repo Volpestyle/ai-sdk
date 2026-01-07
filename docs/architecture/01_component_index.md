@@ -35,6 +35,7 @@ This SDK is organized as **reusable components**. Each component ships as:
 ### Platform
 - `storage-metadata` — asset store, metadata, seeds, model snapshots, replay
 - `observability-cost` — metrics/traces/logs, per-step cost attribution, quality dashboards
+- `ai-kit-runtime` — shared ai-kit client bootstrap + caching for provider-agnostic inference
 
 ### Policy
 - `moderation-policy` — illegal-only gating baseline + configurable product policies
