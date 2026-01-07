@@ -1,5 +1,13 @@
 # video-render — Tech Spec
 
+## Reference implementation (Python)
+The reference implementation lives under `packages/video-render/python/` and exposes:
+
+- `RenderCapabilities`, `RenderResult` contract types.
+- `render_static_video(...)` ffmpeg-backed static image renders for v0.
+- `generate_i2v_video_bytes(...)` provider adapters (fal/replicate) returning raw bytes.
+- `apply_lipsync(...)` wrapper over `lipsync-generation` with normalized errors.
+
 ## Core contract (backend-neutral)
 ### Inputs
 - `anchor_image_ref` (required; Always-I2V invariant)

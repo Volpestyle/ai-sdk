@@ -1,5 +1,12 @@
 # delivery-playback — Tech Spec
 
+## Reference implementation (Python)
+The reference implementation lives under `packages/delivery-playback/python/` and exposes:
+
+- `MediaStreamController`, `QueueAudioTrack`, `QueueVideoTrack` for aiortc-backed streaming.
+- `stream_audio_video(...)`, `stream_pcm_chunks(...)`, `stream_video_file(...)` utilities.
+- `build_solid_frame(...)`, `build_image_frame(...)`, `load_image_planes(...)` frame helpers.
+
 ## FT-Gen (WebRTC)
 Recommended architecture:
 - Client establishes WebRTC connection to SFU (e.g., LiveKit)

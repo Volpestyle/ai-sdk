@@ -41,3 +41,5 @@ This SDK is organized as **reusable components**. Each component ships as:
 - `moderation-policy` — illegal-only gating baseline + configurable product policies
 
 See `packages/<name>/product_spec.md` and `packages/<name>/tech_spec.md`.
+
+Python reference modules (when available) live under `packages/<name>/python/` and are documented in the package tech specs.

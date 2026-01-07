@@ -1,5 +1,13 @@
 # audio-speech — Tech Spec
 
+## Reference implementation (Python)
+The reference implementation lives under `packages/audio-speech/python/` and exposes:
+
+- `PcmChunk`, `AudioFeatureChunk` dataclasses for PCM + feature windows.
+- `generate_tts_chunks(...)` — ai-kit TTS wrapper that emits PCM chunks (or empty on missing keys).
+- `generate_silence_chunks(...)` — deterministic fallback for offline runs.
+- `extract_audio_features(...)`, `trim_pcm_chunks(...)`, `write_wav_file(...)` — feature + I/O helpers.
+
 ## 1) Streaming TTS
 Interface:
 - `StartTTS(request) -> stream<PCMChunk>`

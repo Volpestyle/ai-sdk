@@ -1,5 +1,12 @@
 # planning-control — Tech Spec
 
+## Reference implementation (Python)
+The reference implementation lives under `packages/planning-control/python/` and exposes:
+
+- `load_turn_plan_schema(...)`, `build_turn_plan_prompt(...)` for LLM prompt + schema wiring.
+- `validate_turn_plan(...)`, `clamp_turn_plan(...)` to enforce schema + budgets.
+- `create_heuristic_turn_plan(...)`, `turn_budget(...)`, `estimate_speech_seconds(...)` for fallback planning.
+
 ## TurnPlan contract (FT-Gen)
 Required:
 - `speech_budget_sec_target`
