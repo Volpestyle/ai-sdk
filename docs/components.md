@@ -30,7 +30,6 @@ Each component ships as a library package and/or service. Detailed specs live un
 ### Media Generation + Delivery
 - audio-speech: [product spec](../packages/audio-speech/product_spec.md) / [tech spec](../packages/audio-speech/tech_spec.md)
 - video-render: [product spec](../packages/video-render/product_spec.md) / [tech spec](../packages/video-render/tech_spec.md)
-- lipsync-generation: [product spec](../packages/lipsync-generation/product_spec.md) / [tech spec](../packages/lipsync-generation/tech_spec.md)
 - postprocess-compositing: [product spec](../packages/postprocess-compositing/product_spec.md) / [tech spec](../packages/postprocess-compositing/tech_spec.md)
 - delivery-playback: [product spec](../packages/delivery-playback/product_spec.md) / [tech spec](../packages/delivery-playback/tech_spec.md)
 - av-sync: [product spec](../packages/av-sync/product_spec.md) / [tech spec](../packages/av-sync/tech_spec.md)

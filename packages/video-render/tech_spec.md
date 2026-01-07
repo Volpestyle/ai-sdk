@@ -6,7 +6,6 @@ The reference implementation lives under `packages/video-render/python/` and exp
 - `RenderCapabilities`, `RenderResult` contract types.
 - `render_static_video(...)` ffmpeg-backed static image renders for v0.
 - `generate_i2v_video_bytes(...)` uses ai-kit video adapters (fal/replicate) returning raw bytes.
-- `apply_lipsync(...)` wrapper over `lipsync-generation` with normalized errors.
 
 ## Core contract (backend-neutral)
 ### Inputs

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterable, List, Optional
+from typing import Iterable, List, Optional, TYPE_CHECKING
 
 import base64
 import array
@@ -9,6 +9,9 @@ import io
 import os
 from pathlib import Path
 import wave
+
+if TYPE_CHECKING:
+    from ai_kit_runtime import AiKitClient
 
 
 @dataclass
@@ -155,23 +158,24 @@ def write_wav_file(chunks: Iterable[PcmChunk], dest: Path, sample_rate_hz: int =
 
 def _ai_kit_tts_chunks(
     *,
-    provider: str,
-    model: str,
     text: str,
     voice: Optional[str],
     response_format: str,
     speed: Optional[float],
     parameters: Optional[dict[str, object]],
     chunk_ms: int,
-    kit: Optional[object],
+    ai_kit_client: "AiKitClient",
 ) -> List[PcmChunk]:
     try:
         from ai_kit import SpeechGenerateInput
     except Exception:
         return []
 
-    kit_obj = getattr(kit, "kit", kit)
-    if not kit_obj:
+    if not ai_kit_client.enabled or not ai_kit_client.kit:
+        return []
+    provider = ai_kit_client.provider or ""
+    model = ai_kit_client.model or ""
+    if not provider or not model:
         return []
 
     payload = SpeechGenerateInput(
@@ -184,7 +188,7 @@ def _ai_kit_tts_chunks(
         parameters=parameters,
     )
     try:
-        output = kit_obj.generate_speech(payload)
+        output = ai_kit_client.kit.generate_speech(payload)
     except Exception:
         return []
 
@@ -212,77 +216,33 @@ def generate_tts_chunks(
     voice: Optional[str] = None,
     sample_rate_hz: int = 16000,
     chunk_ms: int = 40,
-    provider: Optional[str] = None,
-    model: Optional[str] = None,
     speed: Optional[float] = None,
     instructions: Optional[str] = None,
-    kit: Optional[object] = None,
+    ai_kit_client: "AiKitClient" | None = None,
 ) -> List[PcmChunk]:
-    provider = (provider or os.environ.get("TTS_PROVIDER", "openai")).lower()
-    response_format = os.environ.get("TTS_RESPONSE_FORMAT", "").strip().lower()
-    xai_speech_mode = (
-        os.environ.get("AI_KIT_XAI_SPEECH_MODE")
-        or os.environ.get("XAI_SPEECH_MODE")
-        or ""
-    ).strip().lower()
-    if not response_format:
-        if provider == "xai" and xai_speech_mode != "openai":
-            response_format = "pcm"
-        else:
-            response_format = "wav"
-    if provider == "xai" and xai_speech_mode != "openai":
-        if response_format not in {"pcm", "pcmu", "pcma"}:
-            response_format = "pcm"
-
-    api_key = ""
+    response_format = os.environ.get("TTS_RESPONSE_FORMAT", "").strip().lower() or "wav"
     parameters: dict[str, object] = {}
     sample_rate_override = os.environ.get("TTS_SAMPLE_RATE", "").strip()
-    if provider == "openai":
-        api_key = (
-            os.environ.get("AI_KIT_OPENAI_API_KEY")
-            or os.environ.get("OPENAI_API_KEY")
-            or os.environ.get("AI_KIT_API_KEY")
-            or ""
-        )
-        model = model or os.environ.get("TTS_MODEL", "gpt-4o-mini-tts")
-        voice = voice or os.environ.get("TTS_VOICE", "alloy")
-        if instructions:
-            parameters["instructions"] = instructions
-    elif provider == "xai":
-        api_key = (
-            os.environ.get("AI_KIT_XAI_API_KEY")
-            or os.environ.get("XAI_API_KEY")
-            or os.environ.get("AI_KIT_API_KEY")
-            or ""
-        )
-        model = model or os.environ.get("TTS_MODEL", "grok-voice")
-        voice = voice or os.environ.get("TTS_VOICE")
-        if sample_rate_override and response_format in {"pcm", "pcmu", "pcma"}:
-            try:
-                parameters["sampleRate"] = int(sample_rate_override)
-            except ValueError:
-                pass
-        if instructions and xai_speech_mode != "openai":
-            response_overrides = parameters.get("response")
-            if not isinstance(response_overrides, dict):
-                response_overrides = {}
-            response_overrides.setdefault("instructions", instructions)
-            parameters["response"] = response_overrides
-    else:
-        return []
+    if sample_rate_override:
+        try:
+            parameters["sampleRate"] = int(sample_rate_override)
+        except ValueError:
+            pass
+    if instructions:
+        parameters["instructions"] = instructions
 
-    if not api_key:
+    if voice is None:
+        voice = os.environ.get("TTS_VOICE")
+    if ai_kit_client is None:
         return []
 
     chunks = _ai_kit_tts_chunks(
-        provider=provider,
-        model=model,
         text=text,
         voice=voice,
         response_format=response_format,
         speed=speed,
         parameters=parameters or None,
         chunk_ms=chunk_ms,
-        kit=kit,
+        ai_kit_client=ai_kit_client,
     )
     return chunks

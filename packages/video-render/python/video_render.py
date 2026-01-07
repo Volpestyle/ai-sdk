@@ -7,11 +7,12 @@ import subprocess
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, TYPE_CHECKING
 
 from audio_speech import PcmChunk, write_wav_file
-from lipsync_generation import apply_lipsync as apply_lipsync_bytes
-from lipsync_generation import ProviderError as LipSyncProviderError
+
+if TYPE_CHECKING:
+    from ai_kit_runtime import AiKitClient
 
 
 @dataclass
@@ -172,9 +173,7 @@ def _encode_image_data_url(image_path: Path) -> str:
 
 def generate_i2v_video_bytes(
     *,
-    kit,
-    provider: str,
-    model: str,
+    ai_kit_client: "AiKitClient",
     prompt: str,
     anchor_path: Path,
     duration_sec: int,
@@ -182,8 +181,12 @@ def generate_i2v_video_bytes(
     negative_prompt: str = "",
     extra_params: Optional[Dict[str, Any]] = None,
 ) -> VideoBytes:
-    if kit is None:
-        raise ProviderError("ai_kit_missing")
+    if not ai_kit_client.enabled or not ai_kit_client.kit:
+        raise ProviderError("ai_kit_unavailable")
+    provider = ai_kit_client.provider or ""
+    model = ai_kit_client.model or ""
+    if not provider or not model:
+        raise ProviderError("ai_kit_unavailable")
     try:
         from ai_kit import VideoGenerateInput
     except Exception as exc:
@@ -200,7 +203,7 @@ def generate_i2v_video_bytes(
         negativePrompt=negative_prompt or None,
         parameters=parameters or None,
     )
-    output = kit.generate_video(input_data)
+    output = ai_kit_client.kit.generate_video(input_data)
     if not output or not getattr(output, "data", None):
         raise ProviderError("i2v_empty_output")
     return VideoBytes(
@@ -208,30 +211,3 @@ def generate_i2v_video_bytes(
         provider=provider,
         model=model,
     )
-
-
-def apply_lipsync(
-    *,
-    provider: str,
-    model: Optional[str],
-    video_path: Path,
-    audio_path: Path,
-    sync_mode: str,
-    extra_params: Optional[Dict[str, Any]] = None,
-    on_log=None,
-) -> VideoBytes:
-    if provider == "none" or not model:
-        raise ProviderError("lipsync_provider_disabled")
-    try:
-        data = apply_lipsync_bytes(
-            provider=provider,
-            model=model,
-            video_path=video_path,
-            audio_path=audio_path,
-            sync_mode=sync_mode,
-            extra_params=extra_params,
-            on_log=on_log,
-        )
-    except LipSyncProviderError as exc:
-        raise ProviderError(str(exc)) from exc
-    return VideoBytes(content=data, provider=provider, model=model)
