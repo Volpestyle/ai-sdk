@@ -171,11 +171,20 @@ def _encode_image_data_url(image_path: Path) -> str:
     return f"data:{media_type};base64,{data}"
 
 
+def _encode_audio_data_url(audio_path: Path) -> str:
+    media_type, _ = mimetypes.guess_type(str(audio_path))
+    if not media_type:
+        media_type = "audio/wav"
+    data = base64.b64encode(audio_path.read_bytes()).decode("ascii")
+    return f"data:{media_type};base64,{data}"
+
+
 def generate_i2v_video_bytes(
     *,
     ai_kit_client: AiKitClient,
     prompt: str,
     anchor_path: Path,
+    audio_path: Optional[Path] = None,
     duration_sec: int,
     aspect_ratio: str,
     negative_prompt: str = "",
@@ -193,11 +202,13 @@ def generate_i2v_video_bytes(
         raise ProviderError("ai_kit_unavailable") from exc
 
     parameters = dict(extra_params or {})
+    audio_base64 = _encode_audio_data_url(audio_path) if audio_path else None
     input_data = VideoGenerateInput(
         provider=provider,
         model=model,
         prompt=prompt,
         startImage=_encode_image_data_url(anchor_path),
+        audioBase64=audio_base64,
         duration=float(duration_sec),
         aspectRatio=aspect_ratio,
         negativePrompt=negative_prompt or None,
