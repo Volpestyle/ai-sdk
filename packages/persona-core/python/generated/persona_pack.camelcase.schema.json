@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PersonaPack",
+  "type": "object",
+  "required": [
+    "personaId",
+    "version",
+    "anchorSets",
+    "identity",
+    "style",
+    "behaviorPolicy"
+  ],
+  "properties": {
+    "personaId": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "anchorSets": {
+      "type": "object",
+      "description": "Anchors per camera mode (A/B/C...).",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "imageRef",
+            "metadata"
+          ],
+          "properties": {
+            "imageRef": {
+              "type": "string"
+            },
+            "maskRef": {
+              "type": "string"
+            },
+            "metadata": {
+              "type": "object",
+              "properties": {
+                "expressionTag": {
+                  "type": "string"
+                },
+                "headPose": {
+                  "type": "object"
+                },
+                "lightingTag": {
+                  "type": "string"
+                },
+                "cropBox": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 4,
+                  "maxItems": 4
+                },
+                "bestFor": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "faceEmbeddingRefs"
+      ],
+      "properties": {
+        "faceEmbeddingRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "adapterRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "styleEmbeddingRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stageConstraints": {
+          "type": "object"
+        }
+      }
+    },
+    "voiceProfile": {
+      "type": "object",
+      "properties": {
+        "providerVoiceId": {
+          "type": "string"
+        },
+        "speakerEmbeddingRef": {
+          "type": "string"
+        },
+        "prosodyBounds": {
+          "type": "object"
+        }
+      }
+    },
+    "behaviorPolicy": {
+      "type": "object",
+      "properties": {
+        "personaCard": {
+          "type": "string"
+        },
+        "emotionRanges": {
+          "type": "object"
+        },
+        "allowedGestures": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}
